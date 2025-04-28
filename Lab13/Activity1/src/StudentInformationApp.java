@@ -10,6 +10,7 @@ public class StudentInformationApp {
     private JTextField middleInitialTextField;
     private JTextField courseTextField;
     private JTextField yearTextField;
+    private JTextArea displayArea; // To display multiple entries
 
     public StudentInformationApp() {
         frame = new JFrame("Student Information App");
@@ -44,20 +45,18 @@ public class StudentInformationApp {
                 String course = courseTextField.getText();
                 String year = yearTextField.getText();
                 
-                JFrame displayFrame = new JFrame("Submitted Information");
-                displayFrame.setLayout(new FlowLayout());
-                displayFrame.setSize(300, 200);
-                displayFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                // Append the submitted information to the display area
+                displayArea.append("Name: " + firstName + " " + middleInitial + ". " + lastName + "\n");
+                displayArea.append("Course: " + course + "\n");
+                displayArea.append("Year: " + year + "\n");
+                displayArea.append("-----------------------------\n");
                 
-                JLabel displayLabel = new JLabel("Name: " + firstName + " " + middleInitial + ". " + lastName);
-                JLabel courseLabel = new JLabel("Course: " + course);
-                JLabel yearLabel = new JLabel("Year: " + year);
-                
-                displayFrame.add(displayLabel);
-                displayFrame.add(courseLabel);
-                displayFrame.add(yearLabel);
-                
-                displayFrame.setVisible(true);
+                // Clear the input fields after submission
+                firstNameTextField.setText("");
+                lastNameTextField.setText("");
+                middleInitialTextField.setText("");
+                courseTextField.setText("");
+                yearTextField.setText("");
             }
         });
         frame.add(submitButton);
@@ -73,6 +72,19 @@ public class StudentInformationApp {
             }
         });
         frame.add(clearButton);
+        
+        // Create a separate frame for displaying submitted information
+        JFrame displayFrame = new JFrame("Submitted Information");
+        displayFrame.setLayout(new BorderLayout());
+        displayFrame.setSize(400, 300);
+        displayFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        displayArea = new JTextArea();
+        displayArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+        displayFrame.add(scrollPane, BorderLayout.CENTER);
+        
+        displayFrame.setVisible(true);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
